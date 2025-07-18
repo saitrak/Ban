@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test App - Canada Ban</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .hidden { display: none; }
+    .app {
+      background: #222;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 99, 71, 0.5);
+      max-width: 400px;
+      margin: auto;
+    }
+    button {
+      background: tomato;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: orangered;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="banned" class="hidden">
+    <h2>Access Denied</h2>
+    <p>This service is not available in Canada.</p>
+  </div>
+
+  <div id="app" class="app hidden">
+    <h1>Welcome!</h1>
+    <p>This is a test app available in your region.</p>
+    <button onclick="alert('You clicked the button!')">Click Me</button>
+  </div>
+
+  <script>
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data.country_name === "Canada") {
+          document.getElementById('banned').classList.remove('hidden');
+        } else {
+          document.getElementById('app').classList.remove('hidden');
+        }
+      })
+      .catch(() => {
+        document.body.innerHTML = "<h2>Couldn't verify your location.</h2><p>Please try again later.</p>";
+      });
+  </script>
+
+</body>
+</html>
